@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { createTamagui, TamaguiProvider, Text } from 'tamagui';
+import { createTamagui, TamaguiProvider, Text, Theme } from 'tamagui';
 import { config } from '@tamagui/config/v3';
 
 
@@ -41,9 +41,11 @@ export default function RootLayout() {
 
   return (
     <TamaguiProvider config={tamaguiConfig}>
-      <Stack>
-        <Stack.Screen name='index' options={{ headerShown: false }} />
-      </Stack>
+      <Theme name={'yellow'} >
+        <Stack>
+          <Stack.Screen name='index' options={{ headerShown: false }} />
+        </Stack>
+      </Theme>
     </TamaguiProvider>
   );
 }

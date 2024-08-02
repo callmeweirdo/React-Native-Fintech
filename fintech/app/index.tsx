@@ -1,13 +1,14 @@
-import { View, Text, XGroup, Button } from 'tamagui';
+import { View, Text, XGroup, Button, useTheme } from 'tamagui';
 import { StyleSheet } from 'react-native';
 import { useAssets } from 'expo-asset';
 import { ResizeMode, Video } from 'expo-av';
 import { Link } from 'expo-router';
 
 const index = () => {
-    const [assets] = useAssets([require('@/assets/videos/intro.mp4')]);
+  const [assets] = useAssets([require('@/assets/videos/intro.mp4')]);
+  const theme = useTheme();
   return (
-    <View style={styles.container} >
+    <View style={styles.container}>
       {
         assets && <Video
           source={{ uri: assets[0].uri }}
@@ -22,10 +23,10 @@ const index = () => {
         <Text style={styles.header} >Ready to Change the way you Money ?</Text>
       </View>
       <View style={{ flexDirection: 'row', padding: 20, gap: 10 }} >
-        <Link href='/login' style={{backgroundColor: 'black'}} asChild>
-          <Button  href='/login' style={styles.button } color={'black'} >Login</Button>
+        <Link href='/login' style={{ backgroundColor: 'grey' }} asChild>
+          <Button  href='/login' style={styles.button } color={'#fff'} >Login</Button>
         </Link>
-        <Link href='/login' asChild>
+        <Link href='/signup' asChild>
           <Button style={styles.button} >Sign Up</Button>
         </Link>
       </View>
