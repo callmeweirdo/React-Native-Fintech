@@ -44,7 +44,7 @@ export default function RootLayout() {
 
     <TamaguiProvider config={tamaguiConfig}>
       <Stack>
-        <Slot />
+        <Stack.Screen name='index' options={{ headerShown: false }} />
       </Stack>
     </TamaguiProvider>
   );
