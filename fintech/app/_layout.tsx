@@ -40,8 +40,6 @@ export default function RootLayout() {
   }
 
   return (
-    
-
     <TamaguiProvider config={tamaguiConfig}>
       <Stack>
         <Stack.Screen name='index' options={{ headerShown: false }} />
