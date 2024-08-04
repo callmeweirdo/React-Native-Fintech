@@ -1,6 +1,5 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Slot, Stack } from 'expo-router';
+import { Slot, Stack, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
@@ -8,12 +7,14 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { createTamagui, TamaguiProvider, Text, Theme } from 'tamagui';
 import { config } from '@tamagui/config/v3';
-
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+const InitialLayout = () => {
+  const router = useRouter();
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -29,23 +30,42 @@ export default function RootLayout() {
     return null;
   }
 
-
   // you usually export this from a tamagui.config.ts file
-  const tamaguiConfig = createTamagui(config)
+  const tamaguiConfig = createTamagui(config);
 
   // TypeScript types across all Tamagui APIs
-  type Conf = typeof tamaguiConfig
+  type Conf = typeof tamaguiConfig;
   declare module '@tamagui/core' {
-    interface TamaguiCustomConfig extends Conf { }
+    interface TamaguiCustomConfig extends Conf {}
   }
 
   return (
     <TamaguiProvider config={tamaguiConfig}>
-      <Theme name={'yellow'} >
+      <Theme name={'yellow'}>
         <Stack>
-          <Stack.Screen name='signup' options={{ headerShown: false }} />
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="signup"
+            options={{
+              title: '',
+              headerBackTitle: '',
+              headerShadowVisible: false,
+              headerStyle: { backgroundColor: '#fff' },
+              headerLeft: () => (
+                <TouchableOpacity onPress={ router.back } >
+                  <Ionicons name="arrow-back" size={28} color={'grey'} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
         </Stack>
       </Theme>
     </TamaguiProvider>
   );
+};
+
+export default function RootLayout() {
+  return <>
+  <InitialLayout />;
+  </> 
 }
