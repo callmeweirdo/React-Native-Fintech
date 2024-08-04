@@ -24,7 +24,7 @@ const index = () => {
       </View>
       <View style={{ flexDirection: 'row', padding: 20, gap: 10 }} >
         <Link href='/login' style={{ backgroundColor: 'grey' }} asChild>
-          <Button  href='/login' style={styles.button } color={'#fff'} >Login</Button>
+          <Button style={styles.button } color={'#fff'} >Login</Button>
         </Link>
         <Link href='/signup' asChild>
           <Button style={styles.button} >Sign Up</Button>

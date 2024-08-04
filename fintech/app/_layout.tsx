@@ -43,7 +43,7 @@ export default function RootLayout() {
     <TamaguiProvider config={tamaguiConfig}>
       <Theme name={'yellow'} >
         <Stack>
-          <Stack.Screen name='index' options={{ headerShown: false }} />
+          <Stack.Screen name='signup' options={{ headerShown: false }} />
         </Stack>
       </Theme>
     </TamaguiProvider>
