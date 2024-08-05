@@ -7,8 +7,9 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { createTamagui, TamaguiProvider, Text, Theme } from 'tamagui';
 import { config } from '@tamagui/config/v3';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -58,6 +59,27 @@ const InitialLayout = () => {
               ),
             }}
           />
+
+          <Stack.Screen
+            name="login"
+            options={{
+              title: '',
+              headerBackTitle: '',
+              headerShadowVisible: false,
+              headerStyle: { backgroundColor: '#fff' },
+              headerLeft: () => (
+                <TouchableOpacity onPress={ router.back } >
+                  <Ionicons name="arrow-back" size={28} color={'grey'} />
+                </TouchableOpacity>
+              ),
+              headerRight: () => (
+                <TouchableOpacity onPress={ router.back } >
+                  <Ionicons name="help-circle-outline" size={28} color={'grey'} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+
         </Stack>
       </Theme>
     </TamaguiProvider>
@@ -65,7 +87,10 @@ const InitialLayout = () => {
 };
 
 export default function RootLayout() {
-  return <>
-  <InitialLayout />;
+  return <> 
+    <GestureHandlerRootView>
+      <StatusBar style='light' />
+      <InitialLayout />
+    </GestureHandlerRootView>
   </> 
 }
