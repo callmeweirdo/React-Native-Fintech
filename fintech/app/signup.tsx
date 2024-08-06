@@ -49,7 +49,7 @@ const Signup = () => {
             onChangeText={handleNumber}
           />
         </View>
-        <Link href={'/login'} asChild replace>
+        <Link href={'login'} asChild replace>
           <TouchableOpacity style={{ marginTop: 20 }}>
             <Text color={theme.blue10?.get()}>Already have an Account?</Text>
           </TouchableOpacity>

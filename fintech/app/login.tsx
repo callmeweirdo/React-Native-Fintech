@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { H2, useTheme, View, Button } from 'tamagui';
 import { Text } from 'react-native';
 import { Link } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 const Login = () => {
   const [countryCode, setCountryCode] = useState('+234');
@@ -16,7 +17,20 @@ const Login = () => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 100;
   const theme = useTheme();
 
-  const handleNumber = (text: any) => {
+  enum SignInType {
+    Phone,
+    Email,
+    Google,
+    Apple
+  }
+
+  const signInAction = async (type: SignInType) => {
+    if (type === SignInType.Phone) {
+      
+    }
+  };
+
+  const handleNumber = (text: string) => {
     setPhoneNumber(text);
   };
 
@@ -55,6 +69,7 @@ const Login = () => {
 
 
         <Button
+          onPress={() => signInAction(SignInType.Phone)}
           style={[
             styles.button,
             { backgroundColor: phoneNumber !== '' ? theme.yellow10?.get() : 'grey' },
@@ -66,6 +81,33 @@ const Login = () => {
           <View style={{ flex: 1, height: 1, backgroundColor: 'grey' }} />
           <Text style={{ color: 'black', fontSize: 20 }} >Or</Text>
           <View style={{ flex: 1, height: 1, backgroundColor: 'grey' }} />
+        </View>
+
+        <View style={styles.buttonView} >
+          <Button
+            onPress={() => signInAction(SignInType.Email)}
+            style={{ color: 'black' }} >
+            <Ionicons name='mail' size={24} color={'grey'} />
+            <Text>Continue with email</Text>
+          </Button>
+        </View>
+
+        <View style={styles.buttonView} >
+          <Button
+            onPress={() => signInAction(SignInType.Google)}
+            style={{ color: 'black' }} >
+            <Ionicons name='logo-google' size={24} color={'grey'} />
+            <Text>Continue with Google</Text>
+          </Button>
+        </View>
+
+        <View style={styles.buttonView} >
+          <Button
+            onPress={() => signInAction(SignInType.Apple)}
+            style={{ color: 'black' }} >
+            <Ionicons name='logo-apple' size={24} color={'grey'} />
+            <Text>Continue with Apple</Text>
+          </Button>
         </View>
 
       </View>
@@ -101,6 +143,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderRadius: 30,
   },
+  buttonView: {
+    marginVertical: 7
+  }
 });
 
 export default Login;
