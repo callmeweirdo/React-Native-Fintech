@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import { Slot, Stack, useRouter } from 'expo-router';
+import { Link, Slot, Stack, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
@@ -73,12 +73,19 @@ const InitialLayout = () => {
                 </TouchableOpacity>
               ),
               headerRight: () => (
-                <TouchableOpacity onPress={ router.back } >
-                  <Ionicons name="help-circle-outline" size={28} color={'grey'} />
-                </TouchableOpacity>
+                <Link href={'help'} asChild>
+                  <TouchableOpacity style={{ marginRight: 20 }} >
+                    <Ionicons name="help-circle-outline" size={28} color={'grey'} />
+                  </TouchableOpacity>
+                </Link>
               ),
             }}
           />
+
+          <Stack.Screen name='help' options={{ 
+            title: 'Help',
+            presentation: 'formSheet'
+           }} />
 
         </Stack>
       </Theme>

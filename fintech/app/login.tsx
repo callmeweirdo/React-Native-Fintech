@@ -16,7 +16,7 @@ const Login = () => {
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 100;
   const theme = useTheme();
 
-  const handleNumber = (text) => {
+  const handleNumber = (text: any) => {
     setPhoneNumber(text);
   };
 
@@ -27,9 +27,9 @@ const Login = () => {
       keyboardVerticalOffset={keyboardVerticalOffset}
     >
       <View style={styles.container}>
-        <H2 style={styles.H2}>Let's Get Started!</H2>
+        <H2 style={styles.H2}>Welcome Back</H2>
         <Text style={{ marginBottom: 20 }}>
-          Enter your phone number, we will send you a confirmation code there.
+          Enter the phone number associated with your Account
         </Text>
 
         <View style={styles.inputContainer}>
@@ -42,20 +42,17 @@ const Login = () => {
           />
           <TextInput
             placeholder="Phone Number"
-            placeholderTextColor={theme.yellow10?.get()}
+            placeholderTextColor={'black'}
             style={[styles.input, { flex: 1, width: '85%' }]}
             keyboardType="numeric"
             value={phoneNumber}
             onChangeText={handleNumber}
           />
         </View>
-        <Link href={'/login'} asChild replace>
-          <TouchableOpacity style={{ marginTop: 20 }}>
-            <Text color={theme.blue10?.get()}>Already have an Account?</Text>
-          </TouchableOpacity>
-        </Link>
+        
 
-        <View style={{ flex: 1 }} />
+        {/* <View style={{ flex: 1 }} /> */}
+
 
         <Button
           style={[
@@ -63,21 +60,28 @@ const Login = () => {
             { backgroundColor: phoneNumber !== '' ? theme.yellow10?.get() : 'grey' },
           ]}
         >
-          Sign Up
+          Continue
         </Button>
+        <View style={{ flex: 1, margin: 15, flexDirection: 'row', gap: 5, alignItems: 'center', marginTop: 20 }} >
+          <View style={{ flex: 1, height: 1, backgroundColor: 'grey' }} />
+          <Text style={{ color: 'black', fontSize: 20 }} >Or</Text>
+          <View style={{ flex: 1, height: 1, backgroundColor: 'grey' }} />
+        </View>
+
       </View>
+
     </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
+    marginVertical: 0,
     flexDirection: 'column',
     padding: 20,
   },
   H2: {
-    fontWeight: '500',
+    fontWeight: 'bold',
     textAlign: 'center',
     padding: 20,
   },

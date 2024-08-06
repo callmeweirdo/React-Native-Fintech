@@ -42,7 +42,7 @@ const Signup = () => {
           />
           <TextInput
             placeholder="Phone Number"
-            placeholderTextColor={theme.yellow10?.get()}
+            placeholderTextColor={'black'}
             style={[styles.input, { flex: 1, width: '85%' }]}
             keyboardType="numeric"
             value={phoneNumber}
