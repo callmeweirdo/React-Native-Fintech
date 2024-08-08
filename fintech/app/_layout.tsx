@@ -3,6 +3,7 @@ import { Link, Slot, Stack, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import { ClerkLoaded, ClerkProvider } from '@clerk/clerk-expo';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { createTamagui, TamaguiProvider, Text, Theme } from 'tamagui';
@@ -10,6 +11,28 @@ import { config } from '@tamagui/config/v3';
 import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
+
+export * as SecureStore from 'expo-secure-store';
+
+export const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
+export const tokenCache = {
+    async getToken(key: string) {
+      try {
+        return SecureStore.getItemAsync(key);
+      } catch (err) {
+        return null;
+      }
+    },
+
+    async saveToken(key: string, value: string) {
+      try {
+        return SecureStore.setItemAsync(key, value);
+      } catch (err) {
+        return;
+      }
+    }
+  }
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -20,6 +43,11 @@ const InitialLayout = () => {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
+
+  // Cache teh clerk JWT
+
+  
+  
 
   useEffect(() => {
     if (loaded) {
@@ -40,6 +68,13 @@ const InitialLayout = () => {
     interface TamaguiCustomConfig extends Conf {}
   }
 
+  
+
+if (!publishableKey) {
+  throw new Error(
+    'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env',
+  )
+}
   return (
     <TamaguiProvider config={tamaguiConfig}>
       <Theme name={'yellow'}>
@@ -94,10 +129,14 @@ const InitialLayout = () => {
 };
 
 export default function RootLayout() {
-  return <> 
-    <GestureHandlerRootView>
-      <StatusBar style='light' />
-      <InitialLayout />
-    </GestureHandlerRootView>
-  </> 
+  return <>
+    <ClerkProvider  publishableKey={publishableKey} tokenCache={tokenCache} >
+      <ClerkLoaded>
+        <GestureHandlerRootView>
+          <StatusBar style='light' />
+          <InitialLayout />
+        </GestureHandlerRootView>
+      </ClerkLoaded>
+    </ClerkProvider>
+  </>
 }
