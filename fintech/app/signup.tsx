@@ -8,17 +8,35 @@ import {
 import React, { useState } from 'react';
 import { H2, useTheme, View, Button } from 'tamagui';
 import { Text } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
+import { useSignUp } from '@clerk/clerk-expo';
 
 const Signup = () => {
   const [countryCode, setCountryCode] = useState('+234');
   const [phoneNumber, setPhoneNumber] = useState('');
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 100;
-  const theme = useTheme();
 
-  const handleNumber = (text) => {
+  const theme = useTheme();
+  const router = useRouter();
+
+  const { signUp, setActive } = useSignUp();
+
+  const handleNumber = (text: string) => {
     setPhoneNumber(text);
   };
+
+  const onSignUp = async () => {
+    const fullPhoneNumber = `${countryCode}${phoneNumber}`;
+
+    try {
+      await signUp!.create({
+        phoneNumber: fullPhoneNumber,
+      });
+      router.push({pathname: '/verify/[phone]', params: {phone: fullPhoneNumber}});
+    } catch (error) {
+      console.error('Error signIng up:', error);
+    }
+  }
 
   return (
     <KeyboardAvoidingView

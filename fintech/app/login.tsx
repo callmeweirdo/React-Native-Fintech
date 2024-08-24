@@ -8,14 +8,18 @@ import {
 import React, { useState } from 'react';
 import { H2, useTheme, View, Button } from 'tamagui';
 import { Text } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useSignIn } from '@clerk/clerk-expo';
 
 const Login = () => {
   const [countryCode, setCountryCode] = useState('+234');
   const [phoneNumber, setPhoneNumber] = useState('');
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 100;
   const theme = useTheme();
+
+  const router = useRouter();
+  const { signIn } = useSignIn();
 
   enum SignInType {
     Phone,
@@ -26,8 +30,32 @@ const Login = () => {
 
   const signInAction = async (type: SignInType) => {
     if (type === SignInType.Phone) {
-      
+      const fullPhoneNumber = `${countryCode}${phoneNumber}`;
+
+      router.push({pathname: '/verify/[phone]', params: {phone: fullPhoneNumber, signin: 'true'}})
+
+      // try {
+      //   const { supportedFirstFactors } = await signIn!.create({
+      //     identifier: fullPhoneNumber
+      //   });
+
+      //   const { firstPhoneFactor }: any = supportedFirstFactors.find((factor: any) => factor.strategy === 'phone_code'
+      //   )
+
+      //   const { phoneNumberId } = firstPhoneFactor;
+
+      //   await signIn!.prepareFirstFactor({
+      //     strategy: 'phone_code',
+      //     phoneNumberId,
+      //   })
+
+      //   router.push({pathname: '/verify/[phone]', params: {phone: fullPhoneNumber, signin: 'true'}})
+
+      // } catch (error) {
+          
+      // }
     }
+
   };
 
   const handleNumber = (text: string) => {
