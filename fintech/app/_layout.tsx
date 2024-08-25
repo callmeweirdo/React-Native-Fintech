@@ -120,7 +120,22 @@ if (!publishableKey) {
           <Stack.Screen name='help' options={{ 
             title: 'Help',
             presentation: 'formSheet'
-           }} />
+          }} />
+          
+          <Stack.Screen
+            name="verify/[phone]"
+            options={{
+              title: 'Verify',
+              headerBackTitle: '',
+              headerShadowVisible: false,
+              headerStyle: { backgroundColor: '#fff' },
+              headerLeft: () => (
+                <TouchableOpacity onPress={ router.back } >
+                  <Ionicons name="arrow-back" size={28} color={'grey'} />
+                </TouchableOpacity>
+              ),
+            }}
+          />
 
         </Stack>
       </Theme>
