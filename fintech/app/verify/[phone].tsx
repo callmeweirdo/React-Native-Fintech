@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from 'react-native';
+import { Alert, Platform, StyleSheet } from 'react-native';
 import React, { Fragment, useEffect, useState } from 'react';
 import { Link, useLocalSearchParams } from 'expo-router';
 import { SignIn, useSignIn, useSignUp } from '@clerk/clerk-react';
@@ -12,15 +12,16 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+import { isClerkAPIResponseError } from '@clerk/clerk-expo';
 const CELL_COUNT = 6;
 
 const Phone = () => {
-  const { phone } = useLocalSearchParams<{ phone: string, signin: string }>();
-  
+  const { phone, signin } = useLocalSearchParams<{ phone: string, signin: string }>();
+
   const [code, setCode] = useState('');
 
   const { signIn } = useSignIn();
-  const { signUp } = useSignUp();
+  const { signUp, setActive } = useSignUp();
   const ref = useBlurOnFulfill({value: code, cellCount: CELL_COUNT});
     const [props, getCellOnLayoutHandler] = useClearByFocusCell({
       value: code,
@@ -30,17 +31,43 @@ const Phone = () => {
   useEffect(() => {
     if (code.length === 6) {
       // verify code
+      console.log({ code: code });
       if (signin === 'true') {
         verifySignIn();
       } else {
         verifyCode();
-      }
+      } 
     }
   }, [code])
   
-  const verifyCode = async () => {}
+  const verifyCode = async () => {
+    try {
+      await signUp?.attemptPhoneNumberVerification({
+        code,
+      });
+      await setActive!({ session: signUp!.createdSessionId });
+    } catch (error) {
+      console.log('error', JSON.stringify(error, null, 2));
+      if (isClerkAPIResponseError(error)) {
+        Alert.alert('Error', error.errors[0].message);
+      }
+    }
+  }
   
-  const verifySignIn = async () => { }
+  const verifySignIn = async () => {
+    try {
+      await signIn?.attemptFirstFactor({
+        strategy: 'phone_code',
+        code
+      });
+      await setActive!({ session: signIn!.createdSessionId });
+    } catch (error) {
+      console.log('error', JSON.stringify(error, null, 2));
+      if (isClerkAPIResponseError(error)) {
+        Alert.alert('Error', error.errors[0].message);
+      }
+    }
+  }
   
 
   
@@ -120,6 +147,11 @@ const styles = StyleSheet.create({
     width: 10,
     backgroundColor: 'gray',
     alignSelf: 'center',
+  },
+  cellText: {
+    color: '#000',
+    fontSize: 36,
+    textAlign: 'center',
   },
 })
 

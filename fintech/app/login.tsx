@@ -32,8 +32,10 @@ const Login = () => {
     if (type === SignInType.Phone) {
       const fullPhoneNumber = `${countryCode}${phoneNumber}`;
 
-      router.push({pathname: '/verify/[phone]', params: {phone: fullPhoneNumber, signin: 'true'}})
-
+      router.push({
+        pathname: '/verify/[phone]',
+        params: { phone: fullPhoneNumber, signin: 'true' }
+      })
       // try {
       //   const { supportedFirstFactors } = await signIn!.create({
       //     identifier: fullPhoneNumber
