@@ -13,7 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSignIn } from '@clerk/clerk-expo';
 
 const Login = () => {
-  const [countryCode, setCountryCode] = useState('+234');
+  const [countryCode, setCountryCode] = useState('+1');
   const [phoneNumber, setPhoneNumber] = useState('');
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 100;
   const theme = useTheme();

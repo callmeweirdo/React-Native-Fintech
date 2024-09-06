@@ -3,7 +3,7 @@ import { Link, Slot, Stack, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-import { ClerkLoaded, ClerkProvider } from '@clerk/clerk-expo';
+import { ClerkLoaded, ClerkProvider, useAuth } from '@clerk/clerk-expo';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { createTamagui, TamaguiProvider, Text, Theme } from 'tamagui';
@@ -38,6 +38,7 @@ export const tokenCache = {
 SplashScreen.preventAutoHideAsync();
 
 const InitialLayout = () => {
+  const { isLoaded, isSignedIn } = useAuth();
   const router = useRouter();
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -55,9 +56,14 @@ const InitialLayout = () => {
     }
   }, [loaded]);
 
+  useEffect(() => {
+    console.log('Log..', isSignedIn);
+  }, [isSignedIn])
+
   if (!loaded) {
     return null;
   }
+
 
   // you usually export this from a tamagui.config.ts file
   const tamaguiConfig = createTamagui(config);

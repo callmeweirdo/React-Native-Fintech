@@ -12,7 +12,7 @@ import { Link, useRouter } from 'expo-router';
 import { useSignUp } from '@clerk/clerk-expo';
 
 const Signup = () => {
-  const [countryCode, setCountryCode] = useState('+234');
+  const [countryCode, setCountryCode] = useState('+1');
   const [phoneNumber, setPhoneNumber] = useState('');
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 90 : 100;
 
@@ -32,9 +32,12 @@ const Signup = () => {
       await signUp!.create({
         phoneNumber: fullPhoneNumber,
       });
+
+      signUp!.preparePhoneNumberVerification();
+
       router.push({pathname: '/verify/[phone]', params: {phone: fullPhoneNumber}});
-    } catch (error) {
-      console.error('Error signIng up:', error);
+    } catch (err) {
+      console.error('Error signIng up:', err);
     }
   }
 
@@ -80,6 +83,7 @@ const Signup = () => {
             styles.button,
             { backgroundColor: phoneNumber !== '' ? theme.yellow10?.get() : 'grey' },
           ]}
+          onPress={onSignUp}
         >
           Sign Up
         </Button>
