@@ -36,26 +36,26 @@ const Login = () => {
         pathname: '/verify/[phone]',
         params: { phone: fullPhoneNumber, signin: 'true' }
       })
-      // try {
-      //   const { supportedFirstFactors } = await signIn!.create({
-      //     identifier: fullPhoneNumber
-      //   });
+      try {
+        const { supportedFirstFactors } = await signIn!.create({
+          identifier: fullPhoneNumber
+        });
 
-      //   const { firstPhoneFactor }: any = supportedFirstFactors.find((factor: any) => factor.strategy === 'phone_code'
-      //   )
+        const { firstPhoneFactor }: any = supportedFirstFactors.find((factor: any) => factor.strategy === 'phone_code'
+        )
 
-      //   const { phoneNumberId } = firstPhoneFactor;
+        const { phoneNumberId } = firstPhoneFactor;
 
-      //   await signIn!.prepareFirstFactor({
-      //     strategy: 'phone_code',
-      //     phoneNumberId,
-      //   })
+        await signIn!.prepareFirstFactor({
+          strategy: 'phone_code',
+          phoneNumberId,
+        })
 
-      //   router.push({pathname: '/verify/[phone]', params: {phone: fullPhoneNumber, signin: 'true'}})
+        router.push({pathname: '/verify/[phone]', params: {phone: fullPhoneNumber, signin: 'true'}})
 
-      // } catch (error) {
+      } catch (error) {
           
-      // }
+      }
     }
 
   };
